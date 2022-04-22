@@ -1,0 +1,225 @@
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark Theme_color border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand">{{title}}</a>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/student">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="row text-center mt-3">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="register-box">
+            <div class="row">
+            <div class="col-4"></div>
+            
+            <div class="col-4 text-center">
+                <h3 *ngIf="!student.editMode" class="pt-4 ml-5 mr-5 theme-grey "> Add Student </h3>
+                <h3 *ngIf="student.editMode" class="pt-4 ml-5 mr-5 theme-grey"> Edit Record </h3>
+            </div>
+            
+            <div class="col-4 align-bottom">                
+                <button *ngIf="student.editMode" (click)="AddMode()" class="btn btn-primary" >Add Student</button>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-10 title"></div>
+            
+            <div class="col-1"></div>
+        </div>
+        
+            
+            <div class="card-content white-text">
+                <div class="row">
+                    <div class="col-12">
+                      <form #studentForm="ngForm" [formGroup]="form">
+                        <div class="row">
+                            <div class="input-field col-12 row  mb-3 mt-3">
+                                <Label class="col-5 text-right"> Student Name <span class="text-danger">*</span> </Label>
+                                <div class="col-4">
+                                    <input minlength="3" class="form-control" type="text" name="studentName" [(ngModel)]="student.studentName" formControlName="studentName">
+                                    <div *ngIf="studentName &&  studentName.invalid && studentName.touched" class="alert alert-danger mt-3">                                                
+                                        <div *ngIf="studentName.errors?.['required'] else InvalidName">                                
+                                            student name is required
+                                        </div> 
+                                        <ng-template #InvalidName>                                
+                                            Invalid Name
+                                        </ng-template> 
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="col-3"></div>                                                            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col-12 row mb-3">
+                                <Label class="col-5 text-right"> Course <span class="text-danger">*</span> </Label>
+                                <div class="col-4">
+                                    <input class="form-control" type="text" name="course" [(ngModel)]="student.course" formControlName="course">
+                                    <div *ngIf="course && course.invalid && course.touched" class="alert alert-danger mt-3">                               
+                                        <div *ngIf="course.errors?.['required']">                                
+                                            course is required
+                                        </div>                                         
+                                    </div> 
+                                 </div>   
+                                <div class="col-3"></div>                                                            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col-12 row mb-3">
+                                <Label class="col-5 text-right"> Marks <span class="text-danger">*</span> </Label>
+                                <div class="col-4">
+                                    <input class="form-control" type="number" name="marks" [(ngModel)]="student.marks" formControlName="marks">
+                                    <div *ngIf="marks && marks.invalid && marks.touched" class="alert alert-danger mt-3">                           
+                                        <div *ngIf="marks.errors?.['required'] else marksInvalid">                                
+                                            Please enter a valid number
+                                        </div>
+                                        <ng-template #marksInvalid>
+                                            Please enter value 0-100
+                                        </ng-template>
+                                    </div> 
+                                 </div>   
+                                <div class="col-3"></div>                                                            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col-12 row mb-3">
+                                <Label class="col-5 text-right"> Email <span class="text-danger">*</span> </Label>
+                                <div class="col-4">
+                                    <input class="form-control" type="email" name="email" [(ngModel)]="student.email" formControlName="email" >
+                                    <div *ngIf="email && email.invalid && email.touched" class="alert alert-danger mt-3">                                   
+                                        <div *ngIf="email.errors?.['required'] else invalid">                                
+                                            Email required 
+                                        </div> 
+                                        <ng-template #invalid>
+                                            Enter a valid email
+                                          </ng-template>
+                                    </div> 
+                                </div>   
+                                <div class="col-3"></div>                                                            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col-12 row mb-3">
+                                <Label class="col-5 text-right"> Phone <span class="text-danger">*</span> </Label>
+                                <div class="col-4">
+                                    <input class="form-control" type="tel" name="phone" [(ngModel)]="student.phone" formControlName="phone">
+                                    <div *ngIf="phone && phone.invalid && phone.touched" class="alert alert-danger mt-3">                                   
+                                        <div *ngIf="phone.errors?.['required']">                                
+                                            Phone number required 
+                                        </div> 
+                                        <div *ngIf="phone.errors?.['minlength'] || phone.errors?.['maxlength']">                                
+                                            Please enter a valid phone
+                                        </div> 
+                                    </div>
+                                 </div>   
+                                <div class="col-3"></div>                                                            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col-12 row mb-3">
+                                <Label class="col-5 text-right"> Gender <span class="text-danger">*</span> </Label>
+                                <div class="col-4">
+                                    <select class="form-control" name="gender" [(ngModel)]="student.gender" formControlName="gender">
+                                        <option value="" selected>----Select Gender----</option>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                      </select>
+                                      <div *ngIf="gender && gender.invalid && gender.touched" class="alert alert-danger mt-3">                                   
+                                        <div *ngIf="gender.errors?.['required']">                                
+                                            Please select a valid option
+                                        </div> 
+                                        
+                                    </div> 
+                                 </div>   
+                                <div class="col-3"></div>                                                            
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="input-field col-12 row ">
+                                <Label class="col-5  text-right"> Additional Subject <span class="text-danger">*</span>  </Label>  
+                                <div class="col-7 text-left">
+                                    <input type="checkbox" name="physicalEducation" [(ngModel)]="student.physicalEducation" formControlName="physicalEducation" ><span class="mr-3"> Physical Education </span> 
+                                    <input type="checkbox" name="informationPracices" [(ngModel)]="student.informationPratices" formControlName="informationPratices">  <span class="mr-3"> Information Pracices</span>
+                                    <input type="checkbox" name="evs" [(ngModel)]="student.evs" formControlName="evs"> <span class="mr-3"> Evs </span>  
+                                    <div *ngIf="student.additional == false" class="alert alert-danger mt-3">
+                                        Please select at least one subject
+                                    </div> 
+                                 </div>  
+
+                            </div>
+                        </div>
+
+                        <button [disabled]="form.invalid" *ngIf="student.editMode == false" (click)="addStudent(studentForm)" type="submit" class="btn btn-primary pl-5 pr-5 mb-4 mt-2" >Register</button>
+                        <button [disabled]="form.invalid" *ngIf="student.editMode" (click)="updateStudent()" type="submit" class="btn btn-primary pl-5 pr-5 mb-4 mt-2" >Update</button>
+                    </form>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-2"></div>
+</div>
+<div class="row text-center mb-5" >
+    <div class="col-1"></div>
+    <div class="card mt-5 col-10 pl-0 pr-0">
+        <div class="card-header bg-primary text-white h5" >Student Details</div>
+        <div class="card-body">
+            <table >
+                <thead>
+                    <tr>
+                        <th>Roll No</th>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Marks</th>          
+                        <th>Gender</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th class="wider">Additional Subjects</th>
+                        <th> </th>
+                        <th> </th>
+                    </tr>
+                   
+                </thead>
+                
+                <tbody>
+                    <tr style="margin-top: 10px;">
+                    <td></td></tr>
+                    <tr *ngFor="let student of students" >
+                        <td>{{student.rollno}}</td>
+                        <td>{{student.studentName | titlecase}}</td>
+                        <td>{{student.course | uppercase}}</td>
+                        <td>{{student.marks}}% </td>                 
+                        <td *ngIf="student.gender =='M';">Male</td>   
+                        <td *ngIf="student.gender =='F';">Female</td>
+                        <td>{{student.email}}</td>
+                        <td>{{student.phone}}</td>
+                        <td><span *ngIf="student.physicalEducation">Physical Education, </span>
+                            <span *ngIf="student.evs"> Evs,</span>
+                            <span *ngIf="student.informationPratices"> Information Pracices</span>                     
+                            <span *ngIf="!student.physicalEducation && !student.evs && !student.informationPratices"> None </span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-primary" (click)="getStudent(student.rollno)" >
+                                Edit
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteStudent(student.rollno)" >
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-1"></div>
+</div>

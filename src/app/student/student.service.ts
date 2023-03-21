@@ -10,7 +10,7 @@ export class StudentService{
     createStudent(student: IStudent): IStudent[]{
         
         const students =this.getStudentRecords();
-        if(students != null){
+        if(students != null && students.length <=0){
           const currStudentRollno = students.length + 1;
           student.rollno = currStudentRollno;
           students.push(student);
